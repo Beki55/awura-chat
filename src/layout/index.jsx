@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Footer from "../components/Footer";
-import Sidebar from "../components/Sidebar";
+import Sidebar from "../components/sidebar";
 import { Menu } from "lucide-react";
 import { Outlet } from "react-router-dom";
 
