@@ -36,7 +36,7 @@ const Chat = () => {
     };
 
     initChat();
-  }, [dispatch, otherUserId]);
+  }, [dispatch, otherUserId, chatId]);
 
   const handleSend = async (text) => {
     if (chatId) {
