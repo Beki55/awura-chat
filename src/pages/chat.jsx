@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -18,6 +18,8 @@ const Chat = () => {
   const dispatch = useDispatch();
   const { chatId, messages, loading } = useSelector((state) => state.chat);
 
+  const messagesEndRef = useRef(null); // 🔁 For auto-scroll
+
   useEffect(() => {
     const initChat = async () => {
       const currentUserId = auth.currentUser.uid;
@@ -25,18 +27,24 @@ const Chat = () => {
         fetchOrCreateChat({ user1Uid: currentUserId, user2Uid: otherUserId })
       );
 
-      // Listen for real-time updates
       if (chatId) {
         const unsubscribe = listenToChat(chatId, (newMessages) => {
           dispatch(setMessages(newMessages));
         });
 
-        return () => unsubscribe(); // Cleanup listener on unmount
+        return () => unsubscribe(); // Cleanup
       }
     };
 
     initChat();
   }, [dispatch, otherUserId, chatId]);
+
+  // 👇 Scroll to bottom when messages change
+  useEffect(() => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messages]);
 
   const handleSend = async (text) => {
     if (chatId) {
@@ -59,6 +67,7 @@ const Chat = () => {
             />
           </div>
         )}
+
         {messages.length === 0 ? (
           <div className="flex flex-col items-center justify-center h-full space-y-4 mt-12">
             <Smile size={48} className="text-blue-400 dark:text-blue-600" />
@@ -67,13 +76,17 @@ const Chat = () => {
             </p>
           </div>
         ) : (
-          messages.map((message, index) => (
-            <ChatMessage
-              key={index}
-              message={message}
-              isSender={message.sender === auth.currentUser.uid}
-            />
-          ))
+          messages.map((message, index) => {
+            const isLast = index === messages.length - 1;
+            return (
+              <div key={index} ref={isLast ? messagesEndRef : null}>
+                <ChatMessage
+                  message={message}
+                  isSender={message.sender === auth.currentUser.uid}
+                />
+              </div>
+            );
+          })
         )}
       </div>
 
