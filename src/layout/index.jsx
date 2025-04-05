@@ -43,7 +43,7 @@ function Layout( ) {
       {/* Main Content */}
       <div className="flex flex-col flex-grow overflow-y-scroll mt-16 lg:mt-0">
         {/* Chat Header */}
-        <div className="hidden fixed lg:flex md:justify-between p-4 bg-white dark:bg-slate-800 dark:shadow-slate-400 shadow-md w-full ">
+        <div className="hidden fixed lg:flex md:justify-between p-4 bg-white dark:bg-slate-900 dark:shadow-slate-400 shadow-md w-full ">
           <h2 className="text-lg font-semibold">Awura Chat</h2>
           {/* <button className="text-blue-500">Messages</button> */}
         </div>

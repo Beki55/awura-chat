@@ -47,12 +47,12 @@ function Sidebar() {
   );
 
   return (
-    <aside className="h-screen shadow-md p-4 flex flex-col transition-all">
+    <aside className="h-screen dark:bg-slate-900 shadow-md p-4 flex flex-col transition-all">
       {/* Profile Section */}
       <div className="flex flex-col items-center space-x-5 border-b dark:border-slate-500 pb-3">
         <img src="/logo.png" alt="User" className="w-16 h-16 rounded-full" />
         <div>
-          <h2 className="text-lg text-center mt-2 font-bold text-gray- dark:text-white">
+          <h2 className="text-lg text-center mt-2 font-bold">
             {currentUser?.name || "Loading..."}
           </h2>
           <span className="text-sm text-gray-500">{currentUser?.email}</span>
@@ -81,9 +81,9 @@ function Sidebar() {
                 key={user.id}
                 className="p-3 rounded-lg flex items-center gap-3 cursor-pointer hover:bg-blue-100 dark:hover:bg-blue-950 transition-all"
               >
-                <User className="w-5 h-5 text-blue-500 dark:text-white" />
+                <User className="w-5 h-5 text-blue-500" />
                 <div className="flex flex-col">
-                  <span className="font-bold text-gray- dark:text-white">
+                  <span className="font-bold">
                     {user.name}
                   </span>
                   <small className="dark:text-gray-400 text-gray-500">

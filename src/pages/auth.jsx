@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom"; // Import useNavigate
+import { useNavigate } from "react-router-dom";
 import { loginSuccess } from "../redux/slice/userSlice";
 import { auth, db } from "../utils/firebase";
 import {
@@ -10,7 +10,10 @@ import {
   signInWithPopup,
 } from "firebase/auth";
 import { doc, setDoc, getDoc } from "firebase/firestore";
-
+import { toast } from "react-toastify";
+import { RingLoader } from "react-spinners"; // Import the loader
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const Auth = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [formData, setFormData] = useState({
@@ -48,7 +51,13 @@ const Auth = () => {
         dispatch(loginSuccess({ user: userCredential.user, token })); // Dispatch user and token
         console.log("Token:", token); // Optional: Log the token
         setLoading(false); // Set loading to false after login
-        navigate("/"); // Navigate to home after login
+        toast.success("Login successful!", {
+          position: "top-center",
+          autoClose: 3000,
+        });
+        setTimeout(() => {
+          navigate("/"); // Navigate to home after login
+        }, 3000); // Delay in milliseconds
       } else {
         setLoading(true); // Set loading to true before registration
         // Register with Firebase
@@ -69,10 +78,17 @@ const Auth = () => {
         dispatch(loginSuccess({ user: userCredential.user, token })); // Dispatch user and token
         console.log("Token:", token); // Optional: Log the token
         setLoading(false); // Set loading to false after registration
-        navigate("/"); // Navigate to home after registration
+        toast.success("Register successful!", {
+          position: "top-center",
+          autoClose: 3000,
+        });
+        setTimeout(() => {
+          navigate("/"); // Navigate to home after login
+        }, 3000);
       }
     } catch (err) {
       setError(err.message);
+      setLoading(false); // Stop loading if there's an error
     }
   };
 
@@ -99,7 +115,13 @@ const Auth = () => {
       const token = await user.getIdToken(); // Retrieve the token
       dispatch(loginSuccess({ user, token })); // Dispatch user and token
       console.log("Google Login Token:", token); // Optional: Log the token
-      navigate("/"); // Navigate to home after login
+      toast.success("Login successful!", {
+        position: "top-center",
+        autoClose: 3000,
+      });
+      setTimeout(() => {
+        navigate("/"); // Navigate to home after login
+      }, 3000);
     } catch (err) {
       setError(err.message);
       console.error("Google Login Error:", err);
@@ -108,6 +130,7 @@ const Auth = () => {
 
   return (
     <div className="flex h-screen">
+      <ToastContainer />
       {loading && (
         <div className="absolute inset-0 flex items-center justify-center bg-gray-100 dark:bg-gray-900 bg-opacity-75 z-50">
           <RingLoader

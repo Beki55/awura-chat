@@ -4,6 +4,8 @@ import { fetchUsers } from "./redux/slice/userSlice";
 import { Link } from "react-router-dom";
 import { User, Mail } from "lucide-react"; // Lucide icons
 import RingLoader from "react-spinners/RingLoader";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css"; // Import default styles
 
 const App = () => {
   const dispatch = useDispatch();
@@ -15,24 +17,30 @@ const App = () => {
 
   return (
     <div>
+      <ToastContainer />
+
       <div className="mt-">
         <div className="flex justify-center items-center">
           <img className="w-24" src="/logo.png" alt="" />
         </div>
         <h1 className="text-blue-500 text-xl md:text-2xl font-bold text-center">
-          Welcome to the Awura chat box
+          Welcome To The Awura Chat Box
         </h1>
-        <p className="text-blue-500 text-center mb-8">This is the list of available users.</p>
+        <p className="text-blue-500 text-center mb-8">
+          This is the list of available users.
+        </p>
 
         <div className="max-w-4xl mx-auto my-12">
-          {loading && <div className="absolute inset-0 flex items-center justify-center bg-gray-100 dark:bg-gray-900 bg-opacity-75 z-50">
-            <RingLoader
-              size={70}
-              thickness={200}
-              speed={100}
-              color="rgba(57, 143, 172, 1)"
-            />
-          </div>}
+          {loading && (
+            <div className="absolute inset-0 flex items-center justify-center bg-gray-100 dark:bg-gray-900 bg-opacity-75 z-50">
+              <RingLoader
+                size={70}
+                thickness={200}
+                speed={100}
+                color="rgba(57, 143, 172, 1)"
+              />
+            </div>
+          )}
           {error && <p className="text-red-500">{error}</p>}
 
           <ul className="space-y-4">
@@ -52,7 +60,9 @@ const App = () => {
                     </div>
                     <div className="flex items-center gap-2">
                       <Mail className="w-4 h-4 text-red-300" />
-                      <p className="text-sm dark:text-gray-400 text-gray-500">{user.email}</p>
+                      <p className="text-sm dark:text-gray-400 text-gray-500">
+                        {user.email}
+                      </p>
                     </div>
                   </div>
                   <button>Chat</button>
