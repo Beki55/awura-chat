@@ -149,7 +149,7 @@ const Auth = () => {
 
       {/* Right Side - Form */}
       <div className="w-full md:w-1/2 flex flex-col justify-center items-center p-4">
-        <div className="w-full max-w-md bg-white p-8 shadow-lg rounded-lg">
+        <div className="w-full max-w-md bg-white dark:bg-slate-900 p-8 shadow-lg dark:shadow-slate-600 rounded-lg">
           <h2 className="text-2xl font-bold text-center mb-6">
             {isLogin ? "Login" : "Register"}
           </h2>
