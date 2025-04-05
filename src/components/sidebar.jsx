@@ -1,15 +1,24 @@
 import React, { useEffect, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import { auth, db } from "../utils/firebase";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import DarkModeToggle from "../layout/theme";
 import { User } from "lucide-react"; // Lucide user icon
+import { useDispatch } from "react-redux";
+import { logoutSuccess } from "../redux/slice/userSlice";
 
 function Sidebar() {
   const [currentUser, setCurrentUser] = useState(null);
   const [users, setUsers] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
+  const handleLogout = () => {
+    dispatch(logoutSuccess());
+    navigate("/auth");
+  };
+  
   useEffect(() => {
     const fetchUsers = async () => {
       try {
@@ -83,9 +92,7 @@ function Sidebar() {
               >
                 <User className="w-5 h-5 text-blue-500" />
                 <div className="flex flex-col">
-                  <span className="font-bold">
-                    {user.name}
-                  </span>
+                  <span className="font-bold">{user.name}</span>
                   <small className="dark:text-gray-400 text-gray-500">
                     {user.email}
                   </small>
@@ -104,7 +111,10 @@ function Sidebar() {
       </div>
 
       {/* Dark Mode Toggle */}
-      <div className="flex justify-center items-center mt-4">
+      <div className="flex gap-8 justify-center items-center mt-4">
+        <button 
+        className="px-2 py-1 rounded bg-blue-500 text-white hover:bg-blue-600"
+        onClick={handleLogout}>Logout</button>
         <DarkModeToggle />
       </div>
     </aside>

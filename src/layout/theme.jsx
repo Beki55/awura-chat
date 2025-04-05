@@ -19,7 +19,7 @@ export default function DarkModeToggle() {
 
   return (
     <button
-      className="p-2 rounded dark:text-white"
+      className="p-2 rounded"
       onClick={() => setDarkMode(!darkMode)}
     >
       {/* Conditionally render icons based on darkMode state */}
