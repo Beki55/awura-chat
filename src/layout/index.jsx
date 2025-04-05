@@ -17,7 +17,10 @@ function Layout() {
 
       {/* Navbar for small screens */}
       <div className="lg:hidden fixed top-0 left-0 right-0 bg-white dark:bg-slate-800 shadow-md z-50 flex items-center justify-between p-4">
-        <h1 onClick={() => navigate("/")} className="text-lg font-bold cursor-pointer">
+        <h1
+          onClick={() => navigate("/")}
+          className="text-lg font-bold cursor-pointer"
+        >
           Chat Now
         </h1>
         <button
@@ -47,7 +50,9 @@ function Layout() {
       <div className="flex flex-col flex-grow overflow-y-scroll mt-16 lg:mt-0">
         {/* Chat Header */}
         <div className="hidden fixed lg:flex md:justify-between p-4 bg-white dark:bg-slate-900 dark:shadow-slate-400 shadow-md w-full ">
-          <h2 className="text-lg font-semibold">Awura Chat</h2>
+          <h2 onClick={() => navigate("/")} className="text-lg font-semibold cursor-pointer">
+            Awura Chat
+          </h2>
           {/* <button className="text-blue-500">Messages</button> */}
         </div>
         <main className="flex-grow container md:pt-16">
