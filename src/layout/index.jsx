@@ -4,7 +4,7 @@ import Sidebar from "../components/sidebar";
 import { Menu } from "lucide-react";
 import { Outlet } from "react-router-dom";
 
-function Layout( ) {
+function Layout() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   return (
@@ -21,7 +21,7 @@ function Layout( ) {
           className="text-gray-700 focus:outline-none"
           onClick={() => setIsSidebarOpen(!isSidebarOpen)}
         >
-          <Menu size={28} />
+          <Menu size={28} className="text-gray-800 dark:text-gray-100" />
         </button>
       </div>
 
@@ -32,7 +32,7 @@ function Layout( ) {
           onClick={() => setIsSidebarOpen(false)}
         >
           <div
-            className="w-64 bg-white h-full shadow-lg p-4"
+            className="w-64 bg-white h-full shadow-lg"
             onClick={(e) => e.stopPropagation()}
           >
             <Sidebar />
