@@ -15,7 +15,7 @@ function Footer() {
           >
             <path
               d="M0,40 C150,100 300,0 450,40 C600,80 750,20 900,40 C1050,60 1200,10 1200,10 L1200,0 L0,0 Z"
-              className="fill-current text-gray-50 dark:text-slate-800"
+              className="fill-current text-white dark:text-slate-800"
             />
           </svg>
         </div>

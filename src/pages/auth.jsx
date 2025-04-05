@@ -13,8 +13,13 @@ import { doc, setDoc, getDoc } from "firebase/firestore";
 
 const Auth = () => {
   const [isLogin, setIsLogin] = useState(true);
-  const [formData, setFormData] = useState({ email: "", password: "", name: "" });
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+    name: "",
+  });
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate(); // Initialize useNavigate
 
@@ -30,18 +35,28 @@ const Auth = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
-
+    setLoading(true); // Set loading to true when starting the login/register process
     try {
       if (isLogin) {
         // Login with Firebase
-        const userCredential = await signInWithEmailAndPassword(auth, formData.email, formData.password);
+        const userCredential = await signInWithEmailAndPassword(
+          auth,
+          formData.email,
+          formData.password
+        );
         const token = await userCredential.user.getIdToken(); // Retrieve the token
         dispatch(loginSuccess({ user: userCredential.user, token })); // Dispatch user and token
         console.log("Token:", token); // Optional: Log the token
+        setLoading(false); // Set loading to false after login
         navigate("/"); // Navigate to home after login
       } else {
+        setLoading(true); // Set loading to true before registration
         // Register with Firebase
-        const userCredential = await createUserWithEmailAndPassword(auth, formData.email, formData.password);
+        const userCredential = await createUserWithEmailAndPassword(
+          auth,
+          formData.email,
+          formData.password
+        );
         const token = await userCredential.user.getIdToken(); // Retrieve the token
 
         // Save user data to Firestore
@@ -53,6 +68,7 @@ const Auth = () => {
 
         dispatch(loginSuccess({ user: userCredential.user, token })); // Dispatch user and token
         console.log("Token:", token); // Optional: Log the token
+        setLoading(false); // Set loading to false after registration
         navigate("/"); // Navigate to home after registration
       }
     } catch (err) {
@@ -92,6 +108,16 @@ const Auth = () => {
 
   return (
     <div className="flex h-screen">
+      {loading && (
+        <div className="absolute inset-0 flex items-center justify-center bg-gray-100 dark:bg-gray-900 bg-opacity-75 z-50">
+          <RingLoader
+            size={70}
+            thickness={200}
+            speed={100}
+            color="rgba(57, 143, 172, 1)"
+          />
+        </div>
+      )}
       {/* Left Side - Image */}
       <div
         className="w-1/2 bg-cover bg-center hidden md:block"
@@ -110,7 +136,10 @@ const Auth = () => {
           <form onSubmit={handleSubmit}>
             {!isLogin && (
               <div className="mb-4">
-                <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+                <label
+                  htmlFor="name"
+                  className="block text-sm font-medium text-gray-700"
+                >
                   Name
                 </label>
                 <input
@@ -124,7 +153,10 @@ const Auth = () => {
               </div>
             )}
             <div className="mb-4">
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-gray-700"
+              >
                 Email
               </label>
               <input
@@ -137,7 +169,10 @@ const Auth = () => {
               />
             </div>
             <div className="mb-4">
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium text-gray-700"
+              >
                 Password
               </label>
               <input
@@ -159,12 +194,12 @@ const Auth = () => {
 
           {/* Google Login Button */}
           <div
-              onClick={handleGoogleLogin}
-              className="flex justify-center items-center mt-2 shadow-md p-1 border rounded-xl cursor-pointer "
-            >
-              <img className="w-16" src="google.png" alt="google image" />
-              <p>Continue With Google</p>
-            </div>
+            onClick={handleGoogleLogin}
+            className="flex justify-center items-center mt-2 shadow-md p-1 border rounded-xl cursor-pointer "
+          >
+            <img className="w-16" src="google.png" alt="google image" />
+            <p>Continue With Google</p>
+          </div>
 
           {/* Toggle Button */}
           <p className="text-center mt-4 text-sm text-gray-600">
