@@ -2,10 +2,11 @@ import React, { useState } from "react";
 import Footer from "../components/Footer";
 import Sidebar from "../components/sidebar";
 import { Menu } from "lucide-react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 
 function Layout() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <div className="flex max-h-screen">
@@ -16,7 +17,9 @@ function Layout() {
 
       {/* Navbar for small screens */}
       <div className="lg:hidden fixed top-0 left-0 right-0 bg-white dark:bg-slate-800 shadow-md z-50 flex items-center justify-between p-4">
-        <h1 className="text-lg font-bold">Chat Now</h1>
+        <h1 onClick={() => navigate("/")} className="text-lg font-bold cursor-pointer">
+          Chat Now
+        </h1>
         <button
           className="text-gray-700 focus:outline-none"
           onClick={() => setIsSidebarOpen(!isSidebarOpen)}
