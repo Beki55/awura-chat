@@ -10,7 +10,7 @@ import { listenToChat } from "../services/chatService";
 import ChatMessage from "../components/chatMessage";
 import ChatInput from "../components/chatInput";
 import { auth } from "../utils/firebase";
-import { ArrowBigLeft, ArrowLeft, Smile } from "lucide-react";
+import { ArrowLeft, Smile } from "lucide-react";
 
 const Chat = () => {
   const { otherUserId } = useParams();
@@ -65,13 +65,14 @@ const Chat = () => {
       <div className="min-h-screen flex flex-col px-2 pb-20 md:py-10 dark:bg-slate-900">
         {/* Messages Section */}
         <div className="flex-grow p-4 overflow-y-auto flex flex-col space-y-4">
-          {loading ? (
+          {loading && (
             <div className="flex items-center justify-center w-full h-full">
               <p className="text-blue-500 dark:text-blue-400 text-xl">
                 Loading...
               </p>
             </div>
-          ) : messages.length === 0 ? (
+          )}
+          {messages.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-full space-y-4 mt-12">
               <Smile size={48} className="text-blue-400 dark:text-blue-600" />
               <p className="text-xl text-gray-500 dark:text-gray-300">

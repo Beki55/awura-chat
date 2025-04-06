@@ -21,7 +21,7 @@ function Layout() {
           onClick={() => navigate("/")}
           className="text-lg font-bold cursor-pointer"
         >
-          Chat Now
+          Awura Chat 
         </h1>
         <button
           className="text-gray-700 focus:outline-none"
