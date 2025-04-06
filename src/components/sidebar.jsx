@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import { auth, db } from "../utils/firebase";
 import { Link, useNavigate } from "react-router-dom";
-import DarkModeToggle from "../layout/theme";
+import DarkModeToggle from "../theme/theme";
 import { User } from "lucide-react"; // Lucide user icon
 import { useDispatch } from "react-redux";
 import { logoutSuccess } from "../redux/slice/userSlice";
