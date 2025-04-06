@@ -26,7 +26,7 @@ function Sidebar() {
 
         setCurrentUser({
           id: currentUserId,
-          name: auth.currentUser?.displayName || "Anonymous",
+          name: auth.currentUser?.name || "Anonymous",
           email: auth.currentUser?.email,
         });
 

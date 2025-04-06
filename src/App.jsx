@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUsers } from "./redux/slice/userSlice";
 import { Link } from "react-router-dom";
-import { User, Mail } from "lucide-react"; // Lucide icons
+import { User, Mail, MessageCircle } from "lucide-react"; // Lucide icons
 import RingLoader from "react-spinners/RingLoader";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css"; // Import default styles
@@ -43,33 +43,42 @@ const App = () => {
           )}
           {error && <p className="text-red-500">{error}</p>}
 
-          <ul className="space-y-4">
-            {users.map((user) => (
-              <Link
-                to={`/chat/${user.id}`}
-                className="text-blue-500 hover:bg-blue-100 dark:bg-slate-800 flex gap-12 flex-col"
-              >
-                <li
-                  key={user.id}
-                  className="p-4 bg-white dark:bg-slate-800 dark:hover:bg-blue-950 hover:bg-blue-100 shadow-md rounded-md flex justify-between items-center"
+          {users.length > 0 ? (
+            <ul className="space-y-4">
+              {users.map((user) => (
+                <Link
+                  to={`/chat/${user.id}`}
+                  className="text-blue-500 hover:bg-blue-100 dark:bg-slate-800 flex gap-12 flex-col"
                 >
-                  <div>
-                    <div className="flex items-center gap-2">
-                      <User className="w-4 h-4 text-blue-600" />
-                      <p className="font-medium">{user.name}</p>
+                  <li
+                    key={user.id}
+                    className="p-4 bg-white dark:bg-slate-800 dark:hover:bg-blue-950 hover:bg-blue-100 shadow-md rounded-md flex justify-between items-center"
+                  >
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <User className="w-4 h-4 text-blue-600" />
+                        <p className="font-medium">{user.name}</p>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <Mail className="w-4 h-4 text-red-300" />
+                        <p className="text-sm dark:text-gray-400 text-gray-500">
+                          {user.email}
+                        </p>
+                      </div>
                     </div>
-                    <div className="flex items-center gap-2">
-                      <Mail className="w-4 h-4 text-red-300" />
-                      <p className="text-sm dark:text-gray-400 text-gray-500">
-                        {user.email}
-                      </p>
-                    </div>
-                  </div>
-                  <button>Chat</button>
-                </li>
-              </Link>
-            ))}
-          </ul>
+                    <button><MessageCircle /></button>
+                  </li>
+                </Link>
+              ))}
+            </ul>
+          ) : (
+            <div className="flex flex-col justify-center items-center mt-8 gap-5">
+              <img className="max-w-64" src="/null.svg" alt="" />
+              <p className="text-sm text-gray-500 dark:text-gray-400">
+                No users found.
+              </p>
+            </div>
+          )}
         </div>
       </div>
     </div>

@@ -161,7 +161,7 @@ const Auth = () => {
               <div className="mb-4">
                 <label
                   htmlFor="name"
-                  className="block text-sm font-medium text-gray-700"
+                  className="block text-sm font-medium text-gray-"
                 >
                   Name
                 </label>
@@ -178,7 +178,7 @@ const Auth = () => {
             <div className="mb-4">
               <label
                 htmlFor="email"
-                className="block text-sm font-medium text-gray-700"
+                className="block text-sm font-medium text-gray-"
               >
                 Email
               </label>
@@ -194,7 +194,7 @@ const Auth = () => {
             <div className="mb-4">
               <label
                 htmlFor="password"
-                className="block text-sm font-medium text-gray-700"
+                className="block text-sm font-medium text-gray-"
               >
                 Password
               </label>
@@ -218,18 +218,18 @@ const Auth = () => {
           {/* Google Login Button */}
           <div
             onClick={handleGoogleLogin}
-            className="flex justify-center items-center mt-2 shadow-md p-1 border rounded-xl cursor-pointer "
+            className="flex justify-center items-center mt-2 shadow-md p-1 border dark:border-slate-700 rounded-xl cursor-pointer "
           >
             <img className="w-16" src="google.png" alt="google image" />
             <p>Continue With Google</p>
           </div>
 
           {/* Toggle Button */}
-          <p className="text-center mt-4 text-sm text-gray-600">
+          <p className="text-center mt-4 text-sm ">
             {isLogin ? "Don't have an account?" : "Already have an account?"}{" "}
             <button
               onClick={toggleForm}
-              className="text-blue-500 hover:underline focus:outline-none"
+              className="text-blue-700 dark:text-blue-200 hover:underline focus:outline-none"
             >
               {isLogin ? "Register" : "Login"}
             </button>
