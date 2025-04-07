@@ -51,8 +51,25 @@ const Chat = () => {
     if (chatId) {
       const currentUserId = auth.currentUser.uid;
       await dispatch(sendMessage({ chatId, senderUid: currentUserId, text }));
+  
+      // Scroll to bottom immediately (optional)
+      setTimeout(() => {
+        if (messagesEndRef.current) {
+          messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+        }
+      }, 100); // slight delay to allow DOM update
+  
+      // Re-listen for messages (if needed)
+      const unsubscribe = listenToChat(chatId, (newMessages) => {
+        dispatch(setMessages(newMessages));
+      });
+  
+      // Auto-unsubscribe after short delay to prevent stacking listeners
+      setTimeout(() => unsubscribe(), 1000);
     }
   };
+  
+  
 
   return (
     <>
@@ -81,7 +98,7 @@ const Chat = () => {
             </div>
           ) : (
             messages.map((message, index) => {
-              const isLast = index === 0; // first in reversed column
+              const isLast = index === messages.length - 1;
               return (
                 <div key={index} ref={isLast ? messagesEndRef : null}>
                   <ChatMessage
