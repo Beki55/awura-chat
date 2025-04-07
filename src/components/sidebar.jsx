@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, doc, getDoc } from "firebase/firestore";
 import { auth, db } from "../utils/firebase";
 import { Link, useNavigate } from "react-router-dom";
 import DarkModeToggle from "../theme/theme";
@@ -18,18 +18,30 @@ function Sidebar() {
     dispatch(logoutSuccess());
     navigate("/auth");
   };
-  
+
   useEffect(() => {
-    const fetchUsers = async () => {
+    const fetchCurrentUser = async () => {
       try {
         const currentUserId = auth.currentUser?.uid;
 
-        setCurrentUser({
-          id: currentUserId,
-          name: auth.currentUser?.name || "Anonymous",
-          email: auth.currentUser?.email,
-        });
+        if (currentUserId) {
+          // Fetch the current user's details from Firestore
+          const userDocRef = doc(db, "users", currentUserId);
+          const userDocSnap = await getDoc(userDocRef);
 
+          if (userDocSnap.exists()) {
+            const userData = userDocSnap.data();
+            setCurrentUser({
+              id: currentUserId,
+              name: userData.name,
+              email: userData.email,
+            });
+          } else {
+            console.log("No such user in Firestore!");
+          }
+        }
+
+        // Fetch all users except the current user
         const usersCollection = collection(db, "users");
         const userSnapshot = await getDocs(usersCollection);
 
@@ -46,8 +58,8 @@ function Sidebar() {
       }
     };
 
-    fetchUsers();
-  }, []);
+    fetchCurrentUser();
+  }, []); // Runs only once when the component mounts
 
   const filteredUsers = users.filter((user) =>
     `${user.name} ${user.email}`
@@ -112,9 +124,12 @@ function Sidebar() {
 
       {/* Dark Mode Toggle */}
       <div className="flex gap-8 justify-center items-center mt-4">
-        <button 
-        className="px-2 py-1 rounded bg-blue-500 text-white hover:bg-blue-600"
-        onClick={handleLogout}>Logout</button>
+        <button
+          className="px-2 py-1 rounded bg-blue-500 text-white hover:bg-blue-600"
+          onClick={handleLogout}
+        >
+          Logout
+        </button>
         <DarkModeToggle />
       </div>
     </aside>
