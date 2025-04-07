@@ -150,7 +150,12 @@ const Auth = () => {
       {/* Right Side - Form */}
       <div className="w-full md:w-1/2 flex flex-col justify-center items-center p-4">
         <div className="w-full max-w-md bg-white dark:bg-slate-900 p-8 shadow-lg dark:shadow-slate-600 rounded-lg">
-          <h2 className="text-2xl font-bold text-center mb-6">
+          <div className="flex flex-col justify-center gap-4 items-center">
+
+          <img className="max-w-16 mb-4" src="/logo.png" alt="logo" />
+          {/* <p className="text-xl font-bold">Welcome to Awura Chat</p> */}
+          </div>
+          <h2 className="text-3xl font-bold text-center mb-6">
             {isLogin ? "Login" : "Register"}
           </h2>
 
