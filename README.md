@@ -77,7 +77,7 @@ This app uses **Redux Toolkit** for handling:
 
 ```bash
 git clone https://github.com/Beki55/awura-chat.git
-cd your-chat-app
+cd awura-chat
 npm install 
 npm run dev
 ``` 
