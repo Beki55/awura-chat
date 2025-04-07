@@ -18,6 +18,7 @@ const Chat = () => {
   const { chatId, messages, loading } = useSelector((state) => state.chat);
   const messagesEndRef = useRef(null);
   const navigate = useNavigate();
+
   // Fetch or create chat
   useEffect(() => {
     const initChat = async () => {
@@ -29,7 +30,7 @@ const Chat = () => {
     initChat();
   }, [dispatch, otherUserId]);
 
-  // Listen for real-time updates when chatId is available
+  // Listen for real-time updates
   useEffect(() => {
     if (chatId) {
       const unsubscribe = listenToChat(chatId, (newMessages) => {
@@ -39,37 +40,33 @@ const Chat = () => {
     }
   }, [chatId, dispatch]);
 
-  // Scroll to bottom when messages update
+  // Scroll to bottom when messages change
   useEffect(() => {
     if (messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
     }
   }, [messages]);
 
-  // Send message handler
+  // Handle send
   const handleSend = async (text) => {
     if (chatId) {
       const currentUserId = auth.currentUser.uid;
       await dispatch(sendMessage({ chatId, senderUid: currentUserId, text }));
-  
-      // Scroll to bottom immediately (optional)
+
+      // Scroll to bottom after sending
       setTimeout(() => {
         if (messagesEndRef.current) {
           messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
         }
-      }, 100); // slight delay to allow DOM update
-  
-      // Re-listen for messages (if needed)
+      }, 100);
+
+      // Optional: refresh listener
       const unsubscribe = listenToChat(chatId, (newMessages) => {
         dispatch(setMessages(newMessages));
       });
-  
-      // Auto-unsubscribe after short delay to prevent stacking listeners
       setTimeout(() => unsubscribe(), 1000);
     }
   };
-  
-  
 
   return (
     <>
@@ -81,7 +78,7 @@ const Chat = () => {
       </div>
       <div className="min-h-screen flex flex-col px-2 pb-20 md:py-10 dark:bg-slate-900">
         {/* Messages Section */}
-        <div className="flex-grow p-4 overflow-y-auto flex flex-col space-y-4">
+        <div className="flex-grow p-4 overflow-y-auto flex flex-col-reverse gap-4">
           {loading && (
             <div className="flex items-center justify-center w-full h-full">
               <p className="text-blue-500 dark:text-blue-400 text-xl">
@@ -97,8 +94,8 @@ const Chat = () => {
               </p>
             </div>
           ) : (
-            messages.map((message, index) => {
-              const isLast = index === messages.length - 1;
+            [...messages].reverse().map((message, index) => {
+              const isLast = index === 0;
               return (
                 <div key={index} ref={isLast ? messagesEndRef : null}>
                   <ChatMessage
